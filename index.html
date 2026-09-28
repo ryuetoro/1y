@@ -1,0 +1,751 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You ❤️</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Segoe UI", sans-serif;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ffd6e7, #ffeaf2, #fff5f8);
+    color: rgb(255, 255, 255);
+}
+
+/* =========================
+   หน้าทั้งหมด
+========================= */
+
+.page {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: 1s ease;
+    background: linear-gradient(
+        135deg,
+        #ffe2ee,
+        #ffe4ef,
+        #ffe2ee
+    );
+}
+
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(1.1);
+}
+
+
+/* =========================
+   หน้า 1 : กล่องของขวัญ
+========================= */
+
+#giftPage h1 {
+    font-size: 28px;
+    margin-bottom: 45px;
+    text-shadow: 0 0 15px #ff9ac2;
+    color: #FFB3C6;
+}
+
+.gift {
+    position: relative;
+    width: 180px;
+    height: 150px;
+    cursor: pointer;
+    animation: floating 2s infinite ease-in-out;
+}
+
+.box {
+    position: absolute;
+    bottom: 0;
+    width: 180px;
+    height: 120px;
+    background: #d92f68;
+    border-radius: 8px;
+    box-shadow: 0 15px 35px #0008;
+}
+
+.box::before {
+    content: "";
+    position: absolute;
+    width: 28px;
+    height: 100%;
+    background: #ffcb4c;
+    left: 76px;
+}
+
+.lid {
+    position: absolute;
+    top: 25px;
+    left: -8px;
+    width: 196px;
+    height: 42px;
+    background: #ed4778;
+    border-radius: 8px;
+    transition: 1s;
+    z-index: 2;
+}
+
+.lid::after {
+    content: "";
+    position: absolute;
+    width: 28px;
+    height: 42px;
+    background: #ffcb4c;
+    left: 84px;
+}
+
+.gift.open .lid {
+    transform: translateY(-80px) rotate(-8deg);
+}
+
+.ribbon {
+    position: absolute;
+    z-index: 5;
+    top: -8px;
+    left: 68px;
+    font-size: 45px;
+}
+
+.hint {
+    margin-top: 35px;
+    font-size: 17px;
+    opacity: .85;
+    animation: blink 1.5s infinite;
+    color: #353535;
+}
+
+
+/* =========================
+   หน้า 2 : ดอกไม้
+========================= */
+
+#flowerPage {
+    background:
+        radial-gradient(circle at center, #6d2348 0%, #2b1025 70%);
+}
+
+.flowerTitle {
+    font-size: 25px;
+    margin-bottom: 30px;
+}
+
+.flowers img {
+    width: 320px;
+    max-width: 80vw;
+    height: auto;
+    object-fit: contain;
+
+    filter: drop-shadow(0 15px 20px #b84d7060);
+
+    transition: .5s ease;
+}
+
+.flowers:hover img {
+    transform: scale(1.05) rotate(-2deg);
+}
+
+/* เอฟเฟกต์ลอย */
+@keyframes bouquetFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+.flowerHint {
+    margin-top: 20px;
+    font-size: 20px;
+    opacity: .8;
+}
+
+
+/* =========================
+   ปุ่มย้อนกลับ
+========================= */
+
+.backBtn {
+    margin-top: 15px;
+    padding: 10px 22px;
+    border: 1px solid #ffffff66;
+    border-radius: 25px;
+    background: #0e0d0d15;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    transition: .3s;
+}
+
+.backBtn:hover {
+    background: #ffffff30;
+    transform: scale(1.05);
+}
+
+
+/* =========================
+   หน้า 3 : จดหมาย
+========================= */
+
+#letterPage {
+    overflow-y: auto;
+    padding: 30px 15px;
+}
+
+.envelope {
+    width: min(90%, 600px);
+    min-height: 420px;
+    background: #fff7ed;
+    color: #4a2634;
+    border-radius: 10px;
+    padding: 40px;
+    box-shadow: 0 20px 60px #0008;
+    transform: scale(.5) rotate(-3deg);
+    opacity: 0;
+    transition: 1.2s ease;
+}
+
+#letterPage.show .envelope {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+}
+
+.envelope h2 {
+    text-align: center;
+    color: #c73565;
+    margin-bottom: 25px;
+}
+
+.letterText {
+    line-height: 2;
+    font-size: 17px;
+}
+
+.signature {
+    text-align: right;
+    margin-top: 25px;
+    color: #c73565;
+    font-weight: bold;
+}
+
+.back {
+    margin-top: 25px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 30px;
+    background: #d93669;
+    color: white;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+
+/* =========================
+   หัวใจลอย
+========================= */
+
+.heart {
+    position: fixed;
+    bottom: -30px;
+    font-size: 20px;
+    pointer-events: none;
+    animation: heartFloat 4s linear forwards;
+}
+
+.sparkle {
+    position: fixed;
+    pointer-events: none;
+    font-size: 22px;
+    animation: sparkle 1.2s ease-out forwards;
+}
+
+
+/* =========================
+   Animation
+========================= */
+
+@keyframes floating {
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+@keyframes blink {
+    50% {
+        opacity: .4;
+    }
+}
+
+@keyframes flowerFloat {
+    0%,100% {
+        transform: translateY(0) rotate(-3deg);
+    }
+
+    50% {
+        transform: translateY(-10px) rotate(3deg);
+    }
+}
+
+@keyframes heartFloat {
+    to {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes sparkle {
+    to {
+        transform: scale(2) translateY(-50px);
+        opacity: 0;
+    }
+}
+
+
+/* =========================
+   มือถือ
+========================= */
+
+@media(max-width:500px) {
+
+    #giftPage h1 {
+        font-size: 23px;
+    }
+
+    .envelope {
+        padding: 25px;
+    }
+
+    .letterText {
+        font-size: 15px;
+    }
+}
+
+.musicControl {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 25px;
+    background: #ffffffaa;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 5px 15px #0002;
+}
+
+#musicBtn {
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#volumeSlider {
+    width: 90px;
+    cursor: pointer;
+    accent-color: #d94f7d;
+}
+</style>
+</head>
+
+
+<body>
+
+<audio id="bgMusic" autoplay loop>
+    <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<div class="musicControl">
+    <button id="musicBtn" onclick="toggleMusic()">🔊</button>
+
+    <input
+        type="range"
+        id="volumeSlider"
+        min="0"
+        max="1"
+        step="0.01"
+        value="0.35"
+    >
+</div>
+<!-- ==================================================
+     หน้า 1 : กล่องของขวัญ
+================================================== -->
+
+<section id="giftPage" class="page">
+
+    <h1>
+        มีอะไรให้คนเก่งด้วย 💖
+    </h1>
+
+    <div class="gift" onclick="openGift()">
+
+        <div class="lid"></div>
+
+        <div class="box"></div>
+
+        <div class="ribbon">
+            🎀
+        </div>
+
+    </div>
+
+    <p class="hint">
+        กดที่กล่องเพื่อเปิดดูนะ
+    </p>
+
+</section>
+
+
+
+<!-- ==================================================
+     หน้า 2 : ช่อดอกไม้
+================================================== -->
+
+<section id="flowerPage" class="page hidden">
+
+    <div class="flowerTitle">
+        💐 ดอกไม้ให้คนเก่งของเค้าว
+    </div>
+
+
+    <div class="flowers" onclick="openFlowers()">
+        <img src="flowers.png" alt="ช่อดอกไม้">
+    </div>
+
+
+    <p class="flowerHint">
+        สู้ๆน้าค้าบบ
+    </p>
+    <p class="flowerHint">
+        ขอบคุณน้าาาที่อยู๋กับเค้าววมาตั้งขนาดนี้
+    </p>
+
+    <!-- ปุ่มกลับ -->
+    <button class="backBtn" onclick="goBackToGift()">
+        ← กลับไปที่กล่องของขวัญ
+    </button>
+
+</section>
+
+
+
+<!-- ==================================================
+     หน้า 3 : จดหมาย
+================================================== -->
+
+<section id="letterPage" class="page hidden">
+
+    <div class="envelope">
+
+        <h2>
+            ถึงคนเก่งของเค้า 💌
+        </h2>
+
+
+        <div class="letterText">
+
+            <p>
+                สุขสันต์วันครบรอบ้าาาา ❤️
+            </p>
+
+            <br>
+
+            <p>
+                อยู่กับดื้อมา 1 ปี เเล้วน้าา ขอบคุณมากกเยยน้าที่อยู่กะดื้อมาขนาดนี้ ขอบคุณมากๆเยยน้าา ร้ากกกกมากกๆเยยน้าค้าบบบ ขอโทษน้าที่เค้าวอาจจะทำคัวไม่ดีไปบ้าง เเต่เค้าวอยากมีคนเก่งไปอีกทุกช่วงเวลาของชีวิตเค้าวเลยน้า
+                ขอบคุณที่สุ๊ดดดดเยยยน้าาา อยู่ด้วยยกานนไปนานนนๆเยยน้าา ขอให้ทุ๊กกๆวันเจอเเต่สิ่งดีๆ เรื่องดีๆ น้าา ขอให้ทุกวันเป็นวันที่ดีน้าา ขอให้โลกนี้ใจดีกะคนเก่งมากๆน้าา สู้ๆน้าาค้าบบ
+            </p>
+
+            <br>
+
+            <p>
+                ไม่ว่าจะผ่านไปกี่วัน กี่เดือน กี่ปี ไม่ว่จะนานขนาดไหนเค้าวก็จาอยู่ตรงนี้น้า จะเป็นกำลังใจอ้วนๆอยู่ตรงนี้เสมอน้าา ขอให้เค้าวอยู่เป็นกำลังให้คนเก่งไปนานๆเยยยน้าาาา
+            </p>
+
+            <br>
+
+            <p>
+                ภถึงมันจะไม่ใช่ชิ้นเเรกเเล้วก็ไม่ใช่ชิ้นที่ดีที่สุดด้วยยย เเต่เค้าวก็ตั้งใจทำไม่เเพ้ชิ้นไหนเยยยน้าาา
+            </p>
+
+
+            <div class="signature">
+
+                สุขสันต์วันครบรอบน้า ❤️
+                <br>
+                จากD ื้อออ
+
+            </div>
+
+        </div>
+
+
+        <button class="back" onclick="createHearts()">
+            💕 ส่งหัวใจให้เธอ
+        </button>
+
+
+        <!-- ปุ่มกลับ -->
+        <button class="backBtn" onclick="goBackToFlowers()">
+            ← กลับไปที่ช่อดอกไม้
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<script>
+
+const bgMusic = document.getElementById("bgMusic");
+const musicBtn = document.getElementById("musicBtn");
+const volumeSlider = document.getElementById("volumeSlider");
+
+// ระดับเสียงเริ่มต้น 20%
+bgMusic.volume = 0.2;
+
+// พยายามเล่นเพลงทันทีเมื่อเปิดเว็บ
+window.addEventListener("load", () => {
+    bgMusic.play().catch(() => {
+        // ถ้าเบราว์เซอร์บล็อก autoplay
+        musicBtn.innerHTML = "🎵";
+    });
+});
+
+// ปุ่มเปิด / ปิดเพลง
+function toggleMusic() {
+    if (bgMusic.paused) {
+        bgMusic.play();
+        musicBtn.innerHTML = "🔊";
+    } else {
+        bgMusic.pause();
+        musicBtn.innerHTML = "🔇";
+    }
+}
+
+// ปรับระดับเสียง
+volumeSlider.addEventListener("input", () => {
+    bgMusic.volume = volumeSlider.value;
+
+    if (bgMusic.volume == 0) {
+        musicBtn.innerHTML = "🔇";
+    } else {
+        musicBtn.innerHTML = "🔊";
+    }
+});
+
+/* ==================================================
+   เปิดกล่องของขวัญ
+================================================== */
+
+function openGift() {
+
+    const gift = document.querySelector(".gift");
+
+    gift.classList.add("open");
+
+    createHearts();
+
+
+    setTimeout(() => {
+
+        document
+            .getElementById("giftPage")
+            .classList.add("hidden");
+
+        document
+            .getElementById("flowerPage")
+            .classList.remove("hidden");
+
+    }, 1300);
+}
+
+
+
+/* ==================================================
+   เปิดช่อดอกไม้
+================================================== */
+
+function openFlowers() {
+
+    createSparkles();
+
+
+    setTimeout(() => {
+
+        document
+            .getElementById("flowerPage")
+            .classList.add("hidden");
+
+        document
+            .getElementById("letterPage")
+            .classList.remove("hidden");
+
+
+        setTimeout(() => {
+
+            document
+                .getElementById("letterPage")
+                .classList.add("show");
+
+        }, 100);
+
+    }, 1000);
+}
+
+
+
+/* ==================================================
+   กลับจากดอกไม้ → กล่อง
+================================================== */
+
+function goBackToGift() {
+
+    document
+        .getElementById("flowerPage")
+        .classList.add("hidden");
+
+
+    document
+        .getElementById("giftPage")
+        .classList.remove("hidden");
+
+
+    // รีเซ็ตฝากล่อง
+    document
+        .querySelector(".gift")
+        .classList.remove("open");
+}
+
+
+
+/* ==================================================
+   กลับจากจดหมาย → ดอกไม้
+================================================== */
+
+function goBackToFlowers() {
+
+    document
+        .getElementById("letterPage")
+        .classList.add("hidden");
+
+
+    document
+        .getElementById("letterPage")
+        .classList.remove("show");
+
+
+    document
+        .getElementById("flowerPage")
+        .classList.remove("hidden");
+}
+
+
+
+/* ==================================================
+   หัวใจลอย
+================================================== */
+
+function createHearts() {
+
+    for (let i = 0; i < 25; i++) {
+
+        const heart =
+            document.createElement("div");
+
+        heart.className = "heart";
+
+
+        heart.innerHTML =
+            ["❤️", "💕", "💗", "💖", "💘"]
+            [Math.floor(Math.random() * 5)];
+
+
+        heart.style.left =
+            Math.random() * 100 + "vw";
+
+
+        heart.style.animationDuration =
+            (3 + Math.random() * 3) + "s";
+
+
+        heart.style.fontSize =
+            (15 + Math.random() * 25) + "px";
+
+
+        document.body.appendChild(heart);
+
+
+        setTimeout(() => {
+
+            heart.remove();
+
+        }, 6000);
+
+    }
+}
+
+
+
+/* ==================================================
+   ประกายตอนกดดอกไม้
+================================================== */
+
+function createSparkles() {
+
+    for (let i = 0; i < 20; i++) {
+
+        const sparkle =
+            document.createElement("div");
+
+        sparkle.className = "sparkle";
+
+
+        sparkle.innerHTML =
+            ["✨", "⭐", "💖", "🌸"]
+            [Math.floor(Math.random() * 4)];
+
+
+        sparkle.style.left =
+            (35 + Math.random() * 30) + "vw";
+
+
+        sparkle.style.top =
+            (30 + Math.random() * 30) + "vh";
+
+
+        document.body.appendChild(sparkle);
+
+
+        setTimeout(() => {
+
+            sparkle.remove();
+
+        }, 1500);
+
+    }
+}
+
+</script>
+
+</body>
+</html>
